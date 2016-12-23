@@ -1,0 +1,35 @@
+{# comment: Load cac file tinh : css, js, images... #}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}" />
+
+{% if latest_question_list %}
+    <ul>
+       {% for question in latest_question_list %}
+       <li>
+             <a href="{% url 'polls:detail' question.id %}">
+                {{question.question_text}} 
+             </a>
+       <li>
+       {% endfor %}
+    </ul>
+{% else %}
+   <p>No polls are available.</p>
+{% endif %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if latest_question_list.has_previous %}
+            <a href="?page={{ latest_question_list.previous_page_number }}">Previous</a>
+        {% endif %}
+    </span>
+
+    <span class="current">
+        Page {{ latest_question_list.number }} of {{ latest_question_list.paginator.num_pages }}.
+    </span>
+
+    <span>
+        {% if latest_question_list.has_next %}
+            <a href="?page={{ latest_question_list.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
